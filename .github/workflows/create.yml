@@ -1,0 +1,38 @@
+name: Create
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt-get install tcl-dev libreadline-dev libffi-dev pkg-config python3 libboost-system-dev libboost-python-dev libboost-filesystem-dev zlib1g-dev xz-utils
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+
+    - name: Install yosys
+      run: |
+        git clone https://github.com/YosysHQ/yosys; \
+        cd yosys; \
+        make -j2 ENABLE_CCACHE=1; \
+        sudo make install; cd ..
+
+    - name: Create benchmarks
+      run: bash create_benchmarks.sh
+
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: logic_benchmarks
+        path: logic_benchmarks.tar.xz
