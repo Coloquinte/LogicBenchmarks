@@ -59,6 +59,16 @@ do
         cp "LGSynth91/blif/${i}" "benchmarks/blif/lgsynth91-${i}"
 done
 
+# Download EPFL
+wget https://github.com/lsils/benchmarks/archive/refs/tags/v2023.1.tar.gz
+tar -xzf v2023.1.tar.gz
+for i in benchmarks-2023.1/{arithmetic,random_control}/*.blif
+do
+        name=$(basename "${i}" .blif)
+        cp "${i}" "benchmarks/blif/epfl-${name}.blif"
+done
+
+
 # Compress all
 XZ_OPT=-9 tar -Jcf logic_benchmarks.tar.xz benchmarks/
 
