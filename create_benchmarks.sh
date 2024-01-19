@@ -68,9 +68,5 @@ do
         cp "${i}" "benchmarks/blif/epfl-${name}.blif"
 done
 
-
-# Compress all
-XZ_OPT=-9 tar -Jcf logic_benchmarks.tar.xz benchmarks/
-
 cd ..
-mv tmp/logic_benchmarks.tar.xz .
+mv tmp/benchmarks .

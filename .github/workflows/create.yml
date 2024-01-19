@@ -32,7 +32,8 @@ jobs:
       run: bash create_benchmarks.sh
 
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logic_benchmarks
-        path: logic_benchmarks.tar.xz
+        path: benchmarks
+        compression-level: 9
