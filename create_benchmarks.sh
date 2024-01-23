@@ -56,6 +56,8 @@ wget https://ddd.fit.cvut.cz/www/prj/Benchmarks/LGSynth91.7z
 7z x LGSynth91.7z
 for i in $(ls LGSynth91/blif)
 do
+	# Remove invalid lines from the files
+	sed "/.wire_load_slope/d" -i "LGSynth91/blif/${i}"
         cp "LGSynth91/blif/${i}" "benchmarks/blif/lgsynth91-${i}"
 done
 
