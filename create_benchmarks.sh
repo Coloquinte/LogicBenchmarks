@@ -47,6 +47,8 @@ for directory in Combinational/blif Sequential/Blif
 do
 	for i in $(ls "MCNC/${directory}")
 	do
+		# Remove lines after .exdc: external don't care are not supported by Yosys
+		sed -i '/^.exdc/,/^.end/{/^.end/!d;}' "MCNC/${directory}/${i}"
 		cp "MCNC/${directory}/${i}" "benchmarks/blif/mcnc-${i}"
 	done
 done
