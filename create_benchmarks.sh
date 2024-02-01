@@ -49,6 +49,8 @@ do
 	do
 		# Remove lines after .exdc: external don't care are not supported by Yosys
 		sed -i '/^.exdc/,/^.end/{/^.end/!d;}' "MCNC/${directory}/${i}"
+		# Add .end line if it is missing
+		grep -q .end "MCNC/${directory}/${i}" || printf "\n.end" >> "MCNC/${directory}/${i}"
 		cp "MCNC/${directory}/${i}" "benchmarks/blif/mcnc-${i}"
 	done
 done
@@ -60,7 +62,9 @@ for i in $(ls LGSynth91/blif)
 do
 	# Remove invalid lines from the files
 	sed "/.wire_load_slope/d" -i "LGSynth91/blif/${i}"
-        cp "LGSynth91/blif/${i}" "benchmarks/blif/lgsynth91-${i}"
+	# Add .end line if it is missing
+	grep -q .end "LGSynth91/blif/${i}" || printf "\n.end" >> "LGSynth91/blif/${i}"
+	cp "LGSynth91/blif/${i}" "benchmarks/blif/lgsynth91-${i}"
 done
 
 # Download EPFL
